@@ -1,0 +1,178 @@
+{
+  "name": "git-annotate",
+  "displayName": "Git Annotate: Inline Blame View",
+  "publisher": "musicq",
+  "author": {
+    "name": "musicq"
+  },
+  "description": "Git Blame annotations inline, inspired by Zed editor",
+  "icon": "images/icon.jpg",
+  "version": "1.0.0",
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "galleryBanner": {
+    "color": "#ece3fc",
+    "theme": "light"
+  },
+  "keywords": [
+    "git",
+    "git blame",
+    "blame",
+    "changes",
+    "log",
+    "author",
+    "history",
+    "source control",
+    "sidebar",
+    "annotations"
+  ],
+  "homepage": "https://github.com/musicq/vscode-git-annotate",
+  "bugs": {
+    "url": "https://github.com/musicq/vscode-git-annotate/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/musicq/vscode-git-annotate"
+  },
+  "license": "MIT",
+  "main": "out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "gitAnnotate.toggleAnnotate",
+        "title": "Git Annotate: Toggle Git blame annotations",
+        "enablement": "editorIsOpen && workbench.scm.active"
+      }
+    ],
+    "configuration": {
+      "title": "Git Annotate",
+      "properties": {
+        "gitAnnotate.colorScale": {
+          "description": "Colors to show age of blame entries",
+          "type": "object",
+          "properties": {
+            "light": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^#[a-fA-F0-9]{6,8}$"
+              }
+            },
+            "dark": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^#[a-fA-F0-9]{6,8}$"
+              }
+            }
+          },
+          "default": {
+            "light": [
+              "#999999",
+              "#a65e2b",
+              "#59873a",
+              "#1e754f",
+              "#ab5959",
+              "#b56959",
+              "#998418",
+              "#b07d48",
+              "#2e8f82",
+              "#b05a78",
+              "#b31d28",
+              "#ab5e3f",
+              "#bda437",
+              "#2f798a",
+              "#1c6b48",
+              "#2e808f",
+              "#22863a",
+              "#e36209",
+              "#6f42c1",
+              "#005cc5",
+              "#586069",
+              "#5a6aa6"
+            ],
+            "dark": [
+              "#c99076",
+              "#80a665",
+              "#4d9375",
+              "#cb7676",
+              "#c98a7d",
+              "#b8a965",
+              "#bd976a",
+              "#5DA994",
+              "#db889a",
+              "#fdaeb7",
+              "#c4704f",
+              "#e6cc77",
+              "#4C9A91",
+              "#d4976c",
+              "#5d99a9",
+              "#85e89d",
+              "#ffab70",
+              "#b392f0",
+              "#79b8ff",
+              "#dedcd590",
+              "#6872ab"
+            ]
+          }
+        },
+        "gitAnnotate.useRelativeTime": {
+          "description": "Show relative time (e.g. '2 days ago') instead of absolute date",
+          "type": "boolean",
+          "default": true
+        },
+        "gitAnnotate.colorMode": {
+          "description": "Whether to apply colors to text or background",
+          "type": "string",
+          "enum": [
+            "text",
+            "background"
+          ],
+          "default": "text"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "rm -rf out && npm run esbuild-base -- --minify",
+    "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node",
+    "esbuild": "npm run esbuild-base -- --sourcemap",
+    "esbuild-watch": "npm run esbuild-base -- --sourcemap --watch",
+    "watch": "npm run esbuild-watch",
+    "lint": "eslint . --cache --fix",
+    "format": "prettier --log-level warn --write \"**/*.{js,mjs,cjs,ts,tsx,md}\"",
+    "pretest": "npm run lint",
+    "test": "npm run esbuild-base && tsc --noEmit",
+    "posttest": "npm run format",
+    "publish": "vsce publish",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@types/glob": "^8.1.0",
+    "@types/lodash": "^4.17.13",
+    "@types/node": "^22.10.3",
+    "@types/vscode": "^1.75.0",
+    "@vscode/vsce": "^3.2.1",
+    "esbuild": "^0.24.2",
+    "eslint": "^9.17.0",
+    "eslint-config-tamia": "^9.2.1",
+    "glob": "^11.0.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.3.0",
+    "prettier": "^3.4.2",
+    "typescript": "^5.7.2"
+  },
+  "dependencies": {
+    "git-remote-origin-url": "^4.0.0",
+    "lodash": "^4.17.21",
+    "text-aligner": "^1.1.0"
+  },
+  "lint-staged": {
+    "*.{js,mjs,cjs,ts,tsx,md}": "prettier --write",
+    "*.{js,mjs,cjs,ts,tsx}": "eslint --cache --fix"
+  }
+}
